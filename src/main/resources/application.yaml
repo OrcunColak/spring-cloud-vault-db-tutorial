@@ -10,7 +10,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
         
   config:
     import: optional:vault://
@@ -30,6 +30,7 @@ spring:
       
       database:
         enabled: true
+        #  Specifies the Vault role for which Spring Boot requests credentials.
         role: dynamic-role
 
 # Variable for age
