@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  vault:
+    image: vault:1.13.3
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root"  # Set the root token to "root" for easy access
+      VAULT_ADDR: "http://127.0.0.1:8200"  # Vault address environment variable
+    cap_add:
+      - IPC_LOCK  # Prevents Vault from swapping to disk, needed for secrets security in production
+    command: "server -dev"
+    networks:
+      - my-network
+  
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Simform@123
+      POSTGRES_DB: spring-cloud-vault-demo
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

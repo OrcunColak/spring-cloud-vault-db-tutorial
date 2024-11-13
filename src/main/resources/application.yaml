@@ -1,0 +1,36 @@
+spring:
+  
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/spring-cloud-vault-demo
+    # username and password properties will be injected by the vault
+  jpa:
+    #show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+        
+  config:
+    import: optional:vault://
+  cloud:
+    config:
+      enabled: false
+    vault:
+      enabled: true
+      uri: http://localhost:8200
+      authentication: token
+      token: root
+      
+      kv:
+        enabled: true
+        backend: secret
+        default-context: spring-cloud-vault-demo
+      
+      database:
+        enabled: true
+        role: dynamic-role
+
+# Variable for age
+my_age: ${age}
